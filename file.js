@@ -381,7 +381,7 @@ function frankenSplice(arr1, arr2, n) {
 }
 //problem 29: write a function that return the arguments of function into table
 //getArguments("5",6")===>["5",6]
-//getArguments("5")===>["5"]
+//getArguments("5")===>["5"];
 
 function getArguments(arr) {
   let table = [];
@@ -415,19 +415,43 @@ function destroyer(arr) {
 
 /* problem:31: Wherefore art thou */
 /* Make a function that looks through an array of objects (first argument) and returns an array of all objects that have matching name and value pairs (second argument). Each name and value pair of the source object has to be present in the object from the collection if it is to be included in the returned array. */
-/* whatIsInAName([{ first: "Romeo", last: "Montague" }, { first: "Mercutio", last: null }, { first: "Tybalt", last: "Capulet" }], { last: "Capulet" }) should return [{ first: "Tybalt", last: "Capulet" }] */
+/* whatIsInAName([{ first: "Romeo", last: "Montague" },
+ { first: "Mercutio", last: null }, 
+ { first: "Tybalt", last: "Capulet" }],
+  { last: "Capulet" }) should return [{ first: "Tybalt", last: "Capulet" }] */
 function whatIsInAName(collection, source) {
-  const arr = [];
+  const sourceKeys = Object.keys(source);
+  const sourceValues = Object.values(source);
+  let sortKyes = sourceKeys.sort((a, b) => a - b);
+  const sortValues = sourceValues.sort((a, b) => a - b);
+  const table = [];
+  const equals = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+  /* [apple,bat,cookie] */
+  /* [apple,cookies] */
 
-  collection.forEach((elt, index) => {
-    for (let key in source) {
-      console.log(elt[key]);
+  for (let i = 0; i < collection.length; i++) {
+    let keysElement = Object.keys(collection[i]);
+    let valuesElement = Object.values(collection[i]);
+    let sortElementKeys = keysElement.sort((a, b) => a - b);
+    let sortElementValues = valuesElement.sort((a, b) => a - b);
+
+    equals(sortElementKeys, sortKyes) && equals(sortValues, sortElementValues);
+    if (equal) {
+      table.push(collection[i]);
+    } else {
+      if (keysElement.length < sourceKeys.length) {
+        break;
+      }
     }
-  });
+  }
+  return table;
 }
-/* whatIsInAName(
-  [{ apple: 1, bat: 2 }, { bat: 2 }, { apple: 1, bat: 2, cookie: 2 }],
-  { apple: 1, bat: 2 }
+
+/* console.log(
+  whatIsInAName(
+    [{ apple: 1, cookie: 2 }, { apple: 1 }, { apple: 1, bat: 2, cookie: 2 }],
+    { apple: 1, cookie: 2 }
+  )
 ); */
 
 //problem:31:Given two sets of elements, find the sum of all distinct elements from the set. In other words, find the sum of all elements which are present in either of the given set.
@@ -459,9 +483,10 @@ function different(tab1, tab2) {
     if (!obj.hasOwnProperty(tab[i])) {
       obj[tab[i]] = 0;
     } else {
-      obj[tab[i]]++;
+      obj[tab[i]] = 1;
     }
   }
+
   for (let key in obj) {
     if (obj[key] === 0) {
       sum += Number(key);
@@ -506,4 +531,50 @@ function equal(tab1, tab2) {
   }
   return sum;
 }
-console.log(equal([12, 13, 6, 10], [13, 10, 16, 15]));
+//problem 33:bubble sort
+function bubbleSort(tab) {
+  for (let i = 0; i < tab.length; i++) {
+    for (let j = 0; j < tab.length; j++) {
+      if (tab[j] > tab[j + 1]) {
+        let temp = tab[j];
+        tab[j] = tab[j + 1];
+        tab[j + 1] = temp;
+      }
+    }
+  }
+  return tab;
+}
+
+//problem 34:selection sort
+function selectionSort(tab) {
+  for (let i = 0; i < tab.length; i++) {
+    for (let j = i + 1; j < tab.length; j++) {
+      if (tab[i] > tab[j]) {
+        let temp = tab[i];
+        tab[i] = tab[j];
+        tab[j] = temp;
+      }
+    }
+  }
+  return tab;
+}
+//insertion sort
+function insertionSort(tab) {
+  for (let i = 0; i < tab.length; i++) {
+    for (let j = i; j > 0; j--) {
+      if (tab[j - 1] > tab[j]) {
+        let temp = tab[j];
+        tab[j] = tab[j - 1];
+        tab[j - 1] = temp;
+      }
+    }
+  }
+}
+
+///frankenSplice([1, 2, 3], [4, 5], 1) should return [4, 1, 2, 3, 5]
+
+function frankenSplice(arr1, arr2, n) {
+  const temp = arr2.splice(n);
+}
+
+console.log(frankenSplice([1, 2, 3], [4, 5, 6], 1));
